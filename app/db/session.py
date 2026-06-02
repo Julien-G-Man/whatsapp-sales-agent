@@ -1,24 +1,31 @@
-import re
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from app.config import settings
+
+# asyncpg does not accept these as query parameters
+_STRIP_PARAMS = {"sslmode", "channel_binding"}
 
 
 def _prepare_url(url: str) -> tuple[str, dict]:
     """Normalize DATABASE_URL for asyncpg and return extra connect_args.
 
-    Render/Neon inject  postgresql://...?sslmode=require
-    asyncpg needs:      postgresql+asyncpg://...  + connect_args={"ssl": True}
+    Neon injects: postgresql://...?sslmode=require&channel_binding=require
+    asyncpg needs: postgresql+asyncpg://...  +  connect_args={"ssl": True}
     """
     connect_args: dict = {}
     needs_ssl = "sslmode=require" in url
 
+    # Convert dialect prefix
     if url.startswith("postgres://"):
         url = url.replace("postgres://", "postgresql+asyncpg://", 1)
     elif url.startswith("postgresql://"):
         url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
-    # Strip sslmode — asyncpg rejects it as an unknown query parameter
-    url = re.sub(r"[?&]sslmode=\w+", "", url).rstrip("?")
+    # Strip params asyncpg rejects, preserving any others
+    parsed = urlparse(url)
+    params = {k: v for k, v in parse_qs(parsed.query, keep_blank_values=True).items()
+              if k not in _STRIP_PARAMS}
+    url = urlunparse(parsed._replace(query=urlencode(params, doseq=True)))
 
     if needs_ssl:
         connect_args["ssl"] = True
