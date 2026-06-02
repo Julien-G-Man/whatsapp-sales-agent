@@ -3,35 +3,30 @@ services:
     name: whatsapp-agent
     runtime: python
     buildCommand: pip install poetry && poetry install
-    startCommand: poetry run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: poetry run python run.py
     healthCheckPath: /health
 
     envVars:
-      # --- hardcoded for this deployment ---
-      - key: DATABASE_URL
-        value: sqlite+aiosqlite:///./momoagent.db
       - key: ENV
         value: production
       - key: CLAUDE_MODEL
         value: claude-haiku-4-5-20251001
 
-      # --- set these in the Render dashboard (Secrets) ---
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: WHATSAPP_API_KEY
         sync: false
       - key: WHATSAPP_PHONE_NUMBER_ID
         sync: false
-      - key: WHATSAPP_VERIFY_TOKEN   # pick any random string; paste same value in 360dialog dashboard
+      - key: WHATSAPP_VERIFY_TOKEN   
         sync: false
-      - key: MERCHANT_PHONE          # your WhatsApp number in international format, no +
+      - key: MERCHANT_PHONE         
         sync: false
       - key: BUSINESS_NAME
         sync: false
       - key: BUSINESS_CITY
         sync: false
 
-      # --- MoMo not used during WhatsApp testing phase ---
       - key: MOMO_SUBSCRIPTION_KEY
         value: placeholder
       - key: MOMO_API_USER
