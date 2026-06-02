@@ -11,14 +11,20 @@ def _prepare_url(url: str) -> tuple[str, dict]:
 
     Neon injects: postgresql://...?sslmode=require&channel_binding=require
     asyncpg needs: postgresql+asyncpg://...  +  connect_args={"ssl": True}
+
+    SQLite URLs are returned as-is — urlunparse corrupts them because
+    'sqlite+aiosqlite' is not in Python's uses_netloc list.
     """
     connect_args: dict = {}
+
+    if not (url.startswith("postgres://") or url.startswith("postgresql://")):
+        return url, connect_args
+
     needs_ssl = "sslmode=require" in url
 
-    # Convert dialect prefix
     if url.startswith("postgres://"):
         url = url.replace("postgres://", "postgresql+asyncpg://", 1)
-    elif url.startswith("postgresql://"):
+    else:
         url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
     # Strip params asyncpg rejects, preserving any others
