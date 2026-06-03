@@ -1,18 +1,5 @@
-"""Twilio WhatsApp Sandbox provider (testing).
-
-Setup:
-  1. twilio.com → sign up (free) → Console → Messaging → Try it out → WhatsApp
-  2. The sandbox number is shown (e.g. +14155238886). Save it as TWILIO_WHATSAPP_FROM.
-  3. Each tester must WhatsApp that number with the join phrase shown once
-     (e.g. "join bright-tiger") — one-time setup per device.
-  4. Webhook URL: https://<your-app>.onrender.com/webhook/whatsapp
-     (set under Sandbox Settings → "When a message comes in")
-  5. No GET verification needed — leave the GET endpoint alone.
-
-Env vars needed:
-  TWILIO_ACCOUNT_SID
-  TWILIO_AUTH_TOKEN
-  TWILIO_WHATSAPP_FROM   e.g. +14155238886
+"""
+Twilio WhatsApp Sandbox provider (testing).
 """
 import httpx
 from fastapi import Request, Response

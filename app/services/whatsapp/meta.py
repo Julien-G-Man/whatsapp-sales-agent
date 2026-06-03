@@ -1,17 +1,5 @@
-"""Meta Cloud API provider (production).
-
-Setup:
-  1. developers.facebook.com → Create App → Business → Add WhatsApp
-  2. API Setup: copy Access Token + Phone Number ID
-  3. Add up to 5 test recipient numbers (verified via OTP — no join code needed)
-  4. Webhook URL: https://<your-app>.onrender.com/webhook/whatsapp
-     Verify token: whatever you set in WHATSAPP_VERIFY_TOKEN
-
-Env vars needed:
-  WHATSAPP_ACCESS_TOKEN   (temporary 24 h token from the dashboard; or a
-                           permanent System User token for production)
-  WHATSAPP_PHONE_NUMBER_ID
-  WHATSAPP_VERIFY_TOKEN
+"""
+Meta Cloud API provider (production).
 """
 import httpx
 from fastapi import Request, Response
