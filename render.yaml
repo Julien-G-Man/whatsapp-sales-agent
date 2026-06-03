@@ -14,7 +14,9 @@ services:
 
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: WHATSAPP_API_KEY
+      - key: WHATSAPP_PROVIDER       # set to "twilio" to test, "meta" for prod
+        value: meta
+      - key: WHATSAPP_ACCESS_TOKEN   # Meta Cloud API
         sync: false
       - key: WHATSAPP_PHONE_NUMBER_ID
         sync: false
@@ -25,6 +27,13 @@ services:
       - key: BUSINESS_NAME
         sync: false
       - key: BUSINESS_CITY
+        sync: false
+
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
         sync: false
 
       - key: MOMO_SUBSCRIPTION_KEY

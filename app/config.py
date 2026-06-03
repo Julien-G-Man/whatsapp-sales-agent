@@ -5,9 +5,17 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
     CLAUDE_MODEL: str = "claude-sonnet-4-6"
 
-    WHATSAPP_API_KEY: str = ""
+    WHATSAPP_PROVIDER: str = "meta"       # "meta" | "twilio"
+
+    # Meta Cloud API
+    WHATSAPP_ACCESS_TOKEN: str = ""
     WHATSAPP_PHONE_NUMBER_ID: str = ""
     WHATSAPP_VERIFY_TOKEN: str = ""
+
+    # Twilio WhatsApp Sandbox
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_WHATSAPP_FROM: str = ""       
 
     MOMO_SUBSCRIPTION_KEY: str = ""
     MOMO_API_USER: str = ""

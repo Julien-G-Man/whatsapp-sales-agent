@@ -4,6 +4,11 @@ from app.config import settings
 router = APIRouter()
 
 
+@router.get("/")
+async def root():
+    return {"status": "ok", "message": "WhatsApp Sales Agent is Active!"}
+
+
 @router.get("/health")
 async def health():
     return {
